@@ -36,15 +36,6 @@ end
 function public.get.f32(addr)
 	return memory.readfloat(addr, true, "RDRAM");
 end
-function public.get.h8(addr)
-	return string.format("0x%02X", memory.read_u8(addr, "RDRAM"));
-end
-function public.get.h16(addr)
-	return string.format("0x%04X", memory.read_u16_be(addr, "RDRAM"));
-end
-function public.get.h32(addr)
-	return string.format("0x%08X", memory.read_u32_be(addr, "RDRAM"));
-end
 function public.get.ptr(addr)
 	local range = memory.read_u8(addr, "RDRAM");
 	if (range ~= 0x80 and range ~= 0x81) then return nil; end
@@ -72,9 +63,9 @@ function public.get.string(addr, length)
 end
 function public.get.vec3s(addr)
 	return {
-		x = memory.read_u16_be(addr, "RDRAM"),
-		y = memory.read_u16_be(addr + 0x02, "RDRAM"),
-		z = memory.read_u16_be(addr + 0x04, "RDRAM"),
+		x = memory.read_s16_be(addr, "RDRAM"),
+		y = memory.read_s16_be(addr + 0x02, "RDRAM"),
+		z = memory.read_s16_be(addr + 0x04, "RDRAM"),
 	};
 end
 function public.get.vec3f(addr)
@@ -114,9 +105,9 @@ function public.set.f32(addr, value)
 	memory.writefloat(addr, value, true, "RDRAM");
 end
 function public.set.vec3s(addr, value)
-	memory.read_u16_be(addr, value.x, "RDRAM");
-	memory.read_u16_be(addr + 0x02, valeu.y, "RDRAM");
-	memory.read_u16_be(addr + 0x04, value.z, "RDRAM");
+	memory.read_s16_be(addr, value.x, "RDRAM");
+	memory.read_s16_be(addr + 0x02, valeu.y, "RDRAM");
+	memory.read_s16_be(addr + 0x04, value.z, "RDRAM");
 end
 function public.set.vec3f(addr, value)
 	memory.readfloat(addr, value.x, true, "RDRAM");
